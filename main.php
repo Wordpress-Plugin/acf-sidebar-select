@@ -4,10 +4,10 @@
  */
  
  
-class widgets extends acf_Field
+class acf_sidebar_select extends acf_Field
 {
 
-	var $localizationDomain = 'widgets';
+	var $localizationDomain = 'acf_sidebar_select';
 
 	/*--------------------------------------------------------------------------------------
 	*
@@ -28,9 +28,9 @@ class widgets extends acf_Field
 		$locale = get_locale();	
 		load_textdomain($this->localizationDomain, sprintf("/%s/lang/%s-%s.mo",dirname( plugin_basename( __FILE__ ) ),$this->localizationDomain, $locale));
    	
-    	// set name / title
-    	$this->name = 'widgets'; // variable name (no spaces / special characters / etc)
-		  $this->title = __("Select a sidebar",$this->localizationDomain); // field label (Displayed in edit screens)
+                // set name / title
+                $this->name = 'acf_sidebar_select'; // variable name (no spaces / special characters / etc)
+                $this->title = __("Select a sidebar",$this->localizationDomain); // field label (Displayed in edit screens)
    	}
 
 	
@@ -45,9 +45,9 @@ class widgets extends acf_Field
 	*-------------------------------------------------------------------------------------*/
 	
 	function create_options($key, $field)
-  {
-
-  }
+        {
+          echo '<!-- nothing -->';
+        }
 	
 	
 	/*--------------------------------------------------------------------------------------
@@ -68,14 +68,13 @@ class widgets extends acf_Field
 		return parent::pre_save_field($field);
 	}
 
-  /**
-   * try and get a nested array value
-   */
-  function try_get_value($field, $key) 
-  {
-    return isset($field[$key]) ? $field[$key] : false;
-
-  }
+        /**
+         * try and get a nested array value
+         */
+        function try_get_value($field, $key) 
+        {
+          return isset($field[$key]) ? $field[$key] : false;
+        }
 	
 	
 	/*--------------------------------------------------------------------------------------
@@ -88,24 +87,23 @@ class widgets extends acf_Field
 	
 	function create_field($field)
 	{
-    global $wp_registered_sidebars;
-    ?>
-    <select name="<?php echo $field['name'] ?>">
-      <option value="0">Use default sidebar</option>
-    <?php 
-      foreach ($wp_registered_sidebars as $sidebar) {
-        printf('
-          <option value="%s" %s>%s</option>
-        '
-        , $sidebar['id']
-        , selected($field['value'], $sidebar['id'])
-        , $sidebar['name']
-        );
-      }
-    ?>
-    </select>
-    <?php
-
+          global $wp_registered_sidebars;
+          ?>
+          <select name="<?php echo $field['name'] ?>">
+            <option value="0">Use default sidebar</option>
+          <?php 
+            foreach ($wp_registered_sidebars as $sidebar) {
+              printf('
+                <option value="%s" %s>%s</option>
+              '
+              , $sidebar['id']
+              , selected($field['value'], $sidebar['id'])
+              , $sidebar['name']
+              );
+            }
+          ?>
+          </select>
+          <?php
  	}
 	
 	
